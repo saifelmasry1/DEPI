@@ -17,22 +17,24 @@ pipeline {
             steps {
                 script {
                     echo 'Building and pushing to Docker hub'
-                    docker.build("omareldeeeb/app-test:jenkins-test")
+                    // بناء الصورة باستخدام الاسم الجديد للمستودع
+                    docker.build("elmaasry/app-test:jenkins-test")
 
+                    // الدفع إلى مستودع Docker Hub الخاص بك
                     docker.withRegistry('https://index.docker.io/v1/', 'my-docker-hub') {
-                        docker.image("omareldeeeb/app-test:jenkins-test").push()
+                        docker.image("elmaasry/app-test:jenkins-test").push()
                     }
                 }
             }        
         }
         stage('Docker Run') {
             steps {
-                dir('Ansible'){
-                  script {
-                         ansiblePlaybook credentialsId: 'ansible-ssh', disableHostKeyChecking: true, installation: 'ansible', inventory: '/opt/ansible/ansible-demo/', playbook: 'playbook.yml'
-                        }
-                   }
-              }
+                dir('Ansible') {
+                    script {
+                        ansiblePlaybook credentialsId: 'ansible-ssh', disableHostKeyChecking: true, installation: 'ansible', inventory: '/opt/ansible/ansible-demo/', playbook: 'playbook.yml'
+                    }
+                }
+            }
         }
     }
 }
