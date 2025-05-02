@@ -1,6 +1,10 @@
 pipeline {
     agent any
-    
+
+    environment {
+        DOCKER_IMAGE = 'saifelmasry1/my-app'  // الاسم الكامل للصورة على Docker Hub
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -18,11 +22,19 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                echo 'Building and pushing Docker image'
-                sh 'docker build -t my-app .'
-                sh 'docker push my-app'
+                script {
+                    echo 'Building Docker image'
+                    sh "docker build -t $DOCKER_IMAGE ."
+
+                    echo 'Logging in and pushing to Docker Hub'
+                    withCredentials([usernamePassword(credentialsId: 'my-docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                            docker push $DOCKER_IMAGE
+                        """
+                    }
+                }
             }
         }
     }
 }
-
