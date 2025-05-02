@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Java Template
 
 This repo exists with a **newer LTS version as a [Java 21 Maven project](https://github.com/felix-seifert/java-21-maven-project)**!
@@ -26,3 +27,6 @@ You can also rename the executable script. If the executable should be called `h
 ```bash
 mv hello hola
 ```
+=======
+# DEPI
+>>>>>>> ef446ae9f7b5c3cf9035e6aa96c5e2a1da8192c3
