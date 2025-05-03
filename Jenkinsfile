@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'saifelmasry1/my-app'  // الاسم الكامل للصورة على Docker Hub
+        DOCKER_IMAGE = 'elmaasry/my-app'  // الاسم الكامل للصورة على Docker Hub
     }
 
     stages {
